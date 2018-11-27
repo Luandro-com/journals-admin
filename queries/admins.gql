@@ -1,0 +1,7 @@
+query {
+ admins {
+    email
+    role
+    id
+  }
+}

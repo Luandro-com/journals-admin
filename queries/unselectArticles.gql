@@ -1,0 +1,8 @@
+
+mutation($articleIds: [ID]!  $editionId: ID!) {
+  unselectArticles(articleIds: $articleIds editionId: $editionId) {
+    submitedArticles {
+      id
+    }
+  }
+}

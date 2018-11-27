@@ -1,0 +1,20 @@
+query {
+  payedArticles {
+    id
+    title
+    edition {
+      id
+      title
+    }
+    author {
+      email
+      firstName
+      lastName
+      image
+    }
+     payment {
+      amount
+    }
+    file
+  }
+}

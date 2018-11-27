@@ -1,0 +1,13 @@
+query {
+  users {
+    id
+    email
+    payments {
+      returnCode
+      amount
+    }
+    articles {
+      id
+    }
+  }
+}
