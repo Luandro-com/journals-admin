@@ -6,7 +6,7 @@ export default () => (
   <App>
     <article>
       <div>
-        <h2>Vendas 24h</h2>
+        <h2>Submissões últimos mês</h2>
         <ProfitPanel />
       </div>
     </article>
