@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import { Query, Mutation } from "react-apollo"
 import USER from '../queries/user.gql'
 import LOGIN from '../queries/login.gql'
-import { setToken, checkToken } from '../lib/auth'
+import { setToken, checkToken, logout } from '../lib/auth'
 
 const styles = {
   card: {
@@ -43,6 +43,7 @@ class Login extends Component {
           if (loadingUserId) return <h1>Loading user ID</h1>
           if (dataUser && dataUser.user) {
             if (dataUser.user.role !== 'ADMIN' || dataUser.user.role !== 'EDITOR') {
+              logout(client)
               return <h1>Não autorizado</h1>
             }
             client.writeData({ data: { user: dataUser.user } })

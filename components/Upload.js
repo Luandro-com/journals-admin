@@ -15,9 +15,9 @@ export default () => (
             files: [file]
           }
         }) => {
-          console.log('FILE client', file)
           validity.valid
           mutate({ variables: { file } })
+            .then(res => console.log('RES', res))
         }}
       />
     )}
