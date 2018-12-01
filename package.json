@@ -38,6 +38,7 @@
     "react-dom": "^16.6.3",
     "react-final-form": "^4.0.2",
     "react-jss": "^8.6.1",
+    "react-loading": "^2.0.3",
     "recharts": "^1.4.1"
   },
   "author": "",

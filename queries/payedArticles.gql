@@ -2,7 +2,7 @@ query {
   payedArticles {
     id
     title
-    edition {
+    issue {
       id
       title
     }

@@ -1,5 +1,5 @@
 query {
-	editions @client {
+	issues @client {
     id
     title
     key

@@ -119,14 +119,14 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1
 
   render() {
-    const { classes, articles, title, editionId } = this.props
+    const { classes, articles, title, issueId } = this.props
     const { order, orderBy, selected, rowsPerPage, page } = this.state
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, articles.length - page * rowsPerPage)
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar
           clearSelection={this.handleClearSelection}
-          editionId={editionId}
+          issueId={issueId}
           articleIds={selected}
           title={title}
           numSelected={selected.length}

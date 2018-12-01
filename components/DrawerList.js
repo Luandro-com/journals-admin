@@ -7,7 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/DashboardOutlined'
 import OrdersIcon from '@material-ui/icons/MoveToInboxOutlined'
-import EditionIcon from '@material-ui/icons/FeaturedPlayListOutlined'
+import IssueIcon from '@material-ui/icons/FeaturedPlayListOutlined'
 import ClientsIcon from '@material-ui/icons/FaceOutlined'
 import AdminIcon from '@material-ui/icons/PeopleOutlineOutlined'
 import AnalyticsIcon from '@material-ui/icons/PollOutlined'
@@ -40,9 +40,9 @@ const DrawerList = ({ classes, email, name, router: { pathname } }) => (
               <ListItemText primary={"Submissões"} />
             </ListItem>
           </Link>
-          <Link prefetch href='/editions'>
-            <ListItem button disabled={pathname === '/editions'}>
-              <ListItemIcon><EditionIcon /></ListItemIcon>
+          <Link prefetch href='/issues'>
+            <ListItem button disabled={pathname === '/issues'}>
+              <ListItemIcon><IssueIcon /></ListItemIcon>
               <ListItemText primary={"Edições"} />
             </ListItem>
           </Link>

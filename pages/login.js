@@ -10,6 +10,7 @@ import { Query, Mutation } from "react-apollo"
 import USER from '../queries/user.gql'
 import LOGIN from '../queries/login.gql'
 import { setToken, checkToken, logout } from '../lib/auth'
+import Loading from '../components/Loading'
 
 const styles = {
   card: {
@@ -40,7 +41,7 @@ class Login extends Component {
     return (
       <Query query={USER}>
         {({ loading: loadingUserId, error: errorUserId, data: dataUser, client }) => {
-          if (loadingUserId) return <h1>Loading user ID</h1>
+          if (loadingUserId) return <Loading />
           if (dataUser && dataUser.user) {
             if (dataUser.user.role !== 'ADMIN' || dataUser.user.role !== 'EDITOR') {
               logout(client)

@@ -9,8 +9,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import toReal from '../lib/toReal'
-import DELETE_EDITION from '../queries/deleteEdition.gql'
-import EDITIONS_LOCAL from '../queries/editionsLocal.gql'
+import ISSUE_DELETE from '../queries/issueDelete.gql'
+import ISSUES_LOCAL from '../queries/issuesLocal.gql'
 
 const styles = {
   card: {
@@ -27,8 +27,8 @@ const styles = {
 function ProductItem(props) {
   const { classes, id, title, image, body, publishedCall, published, submitedArticles, selectedArticles, selectedEditorials } = props
   return (
-    <Mutation mutation={DELETE_EDITION}>
-      {(deleteEdition, { error: errorDelete, client: clientDelete }) => (
+    <Mutation mutation={ISSUE_DELETE}>
+      {(deleteIssue, { error: errorDelete, client: clientDelete }) => (
         <Card className={classes.card}>
           {image && <CardMedia
             component="img"
@@ -83,12 +83,12 @@ function ProductItem(props) {
             size="small"
             color="primary"
             onClick={async () => {
-              const res = await deleteEdition({ variables: { editionId: id }})
-              if (res && res.data.deleteEdition.id) {
-                const { editions } = clientDelete.cache.readQuery({ query: EDITIONS_LOCAL})
-                const newList = editions.filter(e => e.id !== res.data.deleteEdition.id)
+              const res = await deleteIssue({ variables: { issueId: id }})
+              if (res && res.data.deleteIssue.id) {
+                const { issues } = clientDelete.cache.readQuery({ query: ISSUES_LOCAL})
+                const newList = issues.filter(e => e.id !== res.data.deleteIssue.id)
                 clientDelete.writeData({ data: {
-                  editions: newList
+                  issues: newList
                 }})
               }
             }}>

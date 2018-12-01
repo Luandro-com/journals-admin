@@ -1,6 +1,6 @@
 
-mutation($articleIds: [ID]!  $editionId: ID!) {
-  selectArticles(articleIds: $articleIds editionId: $editionId) {
+mutation($articleIds: [ID]!  $issueId: ID!) {
+  selectArticles(articleIds: $articleIds issueId: $issueId) {
     submitedArticles {
       id
     }

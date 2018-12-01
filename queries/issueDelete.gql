@@ -1,0 +1,5 @@
+mutation($issueId: ID!) {
+  deleteIssue(issueId: $issueId) {
+    id
+  }
+}

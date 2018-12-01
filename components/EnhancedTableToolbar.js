@@ -39,7 +39,7 @@ const toolbarStyles = theme => ({
 })
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes, articleIds, editionId, title, clearSelection } = props
+  const { numSelected, classes, articleIds, issueId, title, clearSelection } = props
   return (
     <Mutation mutation={SELECT_ARTICLES}>
       {(selectArticles, { error: errorSelectArticles, client: clientSelectArticles }) => (
@@ -68,7 +68,7 @@ let EnhancedTableToolbar = props => {
                   <Tooltip title="Adicionar a edição">
                     <IconButton aria-label="Adicionar a edição" onClick={async () => {
                       const res = await selectArticles({ variables: {
-                        editionId,
+                        issueId,
                         articleIds,
                       }})
                       clearSelection()
@@ -80,7 +80,7 @@ let EnhancedTableToolbar = props => {
                   <Tooltip title="Remover da edição">
                     <IconButton aria-label="Adicionar a edição" onClick={async () => {
                       const res = await unselectArticles({ variables: {
-                        editionId,
+                        issueId,
                         articleIds,
                       }})
                       clearSelection()

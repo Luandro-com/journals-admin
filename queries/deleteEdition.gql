@@ -1,5 +1,0 @@
-mutation($editionId: ID!) {
-  deleteEdition(editionId: $editionId) {
-    id
-  }
-}
