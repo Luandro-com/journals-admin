@@ -5,8 +5,7 @@
     "dev": "node server.js",
     "build": "next build",
     "build:analyze": "BUNDLE_ANALYZE=both npm run build",
-    "start": "next start -p 3005",
-    "install-start": "npm install && npm start"
+    "start": "API_HOST=https://n7ky6yokwg.execute-api.sa-east-1.amazonaws.com/staging next start -p 3005"
   },
   "dependencies": {
     "@material-ui/core": "^3.5.1",

@@ -14,6 +14,7 @@ export default () => (
           return <h1>Error</h1>
         }
         if (dataIssues) {
+          console.log('dataIssues', dataIssues)
           return (
             <div className="issuesList">
               {dataIssues.issues.map(p => <IssueItem key={p.id} {...p} />)}

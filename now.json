@@ -5,7 +5,7 @@
     { "src": "package.json", "use": "@now/next" }
   ],
   "env": {
-    "API_HOST": "",
+    "API_HOST": "https://n7ky6yokwg.execute-api.sa-east-1.amazonaws.com/staging",
     "NODE_ENV": "production"
   }
 }

@@ -2,6 +2,10 @@ query {
   payedArticles {
     id
     title
+    selectedBy {
+      key
+      id
+    }
     issue {
       id
       title
@@ -15,6 +19,8 @@ query {
      payment {
       amount
     }
-    file
+    file {
+      url
+    }
   }
 }
