@@ -1,10 +1,25 @@
 import App from '../components/App'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+
 import { Query } from 'react-apollo'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
+
 import ISSUES from '../queries/issues.gql'
 import IssueItem from '../components/IssueItem'
 import Loading from '../components/Loading'
 
-export default () => (
+const styles = {
+  fab: {
+    position: 'fixed',
+    right: 15,
+    bottom: 15
+  },
+}
+
+
+let Issues = ({ classes }) => (
   <App>
     <Query query={ISSUES}>
       {({ loading: loadingIssues, error: errorIssues, data: dataIssues }) => {
@@ -18,6 +33,9 @@ export default () => (
           return (
             <div className="issuesList">
               {dataIssues.issues.map(p => <IssueItem key={p.id} {...p} />)}
+              <Fab color="primary" aria-label="Add" className={classes.fab}>
+                <AddIcon />
+              </Fab>
             </div>
           )
         }
@@ -30,6 +48,15 @@ export default () => (
         justify-content: flex-start;
         flex-flow: row wrap;
       }
+      .fab {
+        display: fixed;
+      }
     `}</style>
   </App>
 )
+
+Issues.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(Issues)

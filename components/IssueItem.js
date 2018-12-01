@@ -87,7 +87,6 @@ function ProductItem(props) {
               if (res && res.data.deleteIssue.id) {
                 const { issues } = clientDelete.cache.readQuery({ query: ISSUES_LOCAL})
                 const newList = issues.filter(e => e.id !== res.data.deleteIssue.id)
-                console.log('newList', newList)
                 clientDelete.writeData({ data: {
                   issues: newList
                 }})

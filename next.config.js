@@ -5,8 +5,10 @@ const withGraphql = require('next-plugin-graphql')
 const withCSS = require('@zeit/next-css')
 const withBundleAnalyzer = require("@zeit/next-bundle-analyzer");
 const withPreact = require('@zeit/next-preact')
+const stage = process.env.UP_STAGE
 
 const nextConfig = {
+  assetPrefix: stage ? `/${stage}` : '',
   serverRuntimeConfig: { // Will only be available on the server side
     mySecret: 'secret'
   },
