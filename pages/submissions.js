@@ -1,10 +1,23 @@
 import App from '../components/App'
 import { Query } from 'react-apollo'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
+
 import PAYED_ARTICLES from '../queries/payedArticles.gql'
 import SubmissionTable from '../components/SubmissionTable'
 import Loading from '../components/Loading'
 
-export default () => (
+const styles = {
+  fab: {
+    position: 'fixed',
+    right: '5%',
+    bottom: '5%'
+  },
+}
+
+let Submissions =  ({ classes }) => (
   <App>
     <Query query={PAYED_ARTICLES}>
       {({ loading: loadingArticles, error: errorArticles, data: dataArticles }) => {
@@ -37,6 +50,9 @@ export default () => (
                 issueId={e.articles[0].issue.id}
                 key={e.issue}
               />)}
+              <Fab color="primary" aria-label="Add" className={classes.fab}>
+                <AddIcon />
+              </Fab>
             </div>
           )
         }
@@ -44,3 +60,9 @@ export default () => (
     </Query>
   </App>
 )
+
+Submissions.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(Submissions)

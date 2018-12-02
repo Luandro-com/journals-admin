@@ -1,9 +1,11 @@
 mutation uploadFile($file: Upload!) {
     uploadFile(file: $file) {
       id
-      path
+      createdAt
+      updatedAt
       filename
       mimetype
       encoding
+      url
     }
   }

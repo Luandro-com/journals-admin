@@ -1,5 +1,5 @@
-query {
-  content {
+mutation($input: ContentInput!) {
+  updateContent(input: $input) {
     title
     logo
     sections

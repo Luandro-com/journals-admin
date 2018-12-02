@@ -13,8 +13,8 @@ import Loading from '../components/Loading'
 const styles = {
   fab: {
     position: 'fixed',
-    right: 15,
-    bottom: 15
+    right: '5%',
+    bottom: '5%'
   },
 }
 
@@ -47,9 +47,6 @@ let Issues = ({ classes }) => (
         align-items: center;
         justify-content: flex-start;
         flex-flow: row wrap;
-      }
-      .fab {
-        display: fixed;
       }
     `}</style>
   </App>

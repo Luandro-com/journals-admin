@@ -5,7 +5,7 @@
     { "src": "next.config.js", "use": "@now/next", "config": { "maxLambdaSize": "50mb" } }
   ],
   "env": {
-    "API_HOST": "https://n7ky6yokwg.execute-api.sa-east-1.amazonaws.com/staging",
+    "API_HOST": "https://us1.prisma.sh/luandro-93a3b2/periodico/dev",
     "NODE_ENV": "production"
   }
 }
