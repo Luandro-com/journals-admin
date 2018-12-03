@@ -66,19 +66,7 @@ const styles = theme => ({
   },
 })
 
-class JournalGeneralForm extends Component {
-  state = {
-    uploaded: null,
-  }
-
-  clearUpload = () => this.setState({ uploaded: null })
-
-  handleUpload = (uploaded, change, blur) => {
-    blur('logo')
-    change('logo', uploaded)
-    this.setState({ uploaded })
-  }
-
+class JournalAboutForm extends Component {
   render() {
     const { classes, onSubmit, content } = this.props
     return (
@@ -99,38 +87,15 @@ class JournalGeneralForm extends Component {
         validate={validate}
         render={({ handleSubmit, pristine, invalid, form: { change, blur } }) => (
           <form onSubmit={handleSubmit}>
-            <ExpansionPanel defaultExpanded>
+            <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <div className={classes.column}>
-                  <Typography className={classes.heading}>Geral</Typography>
+                  <Typography className={classes.heading}>Sobre</Typography>
                 </div>
                 <div className={classes.column}>
-                  <Typography className={classes.secondaryHeading}>configurações gerais</Typography>
+                  <Typography className={classes.secondaryHeading}>sobre o periódico</Typography>
                 </div>
               </ExpansionPanelSummary>
-              <Divider />
-              <ExpansionPanelDetails className={classes.details}>
-                <div className={classes.column}>
-                  <Typography component="h3" variant="h3">Logo</Typography>
-                </div>
-                <div className={classes.column}>
-                  {(content.logo || this.state.uploaded) && <img src={this.state.uploaded || content.logo} />}
-                  {(!this.state.uploaded && !content.logo) && <h4>Sem logo...</h4>}
-                </div>
-                <div className={classNames(classes.column, classes.helper)}>
-                  <Typography variant="caption">
-                    Suba uma imagem para atualizar o logo
-                    <br />
-                    <Field name="logo">
-                      {(fieldprops) => <Upload
-                        {...fieldprops}
-                        accept="image/*"
-                        handleUpload={url => this.handleUpload(url, change, blur)}
-                      /> }
-                    </Field>
-                  </Typography>
-                </div>
-              </ExpansionPanelDetails>
               <Divider />
               <ExpansionPanelDetails className={classes.details}>
                 <div className={classes.column}>
@@ -178,10 +143,10 @@ class JournalGeneralForm extends Component {
   }
 }
 
-JournalGeneralForm.propTypes = {
+JournalAboutForm.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(JournalGeneralForm)
+export default withStyles(styles)(JournalAboutForm)
 
 

@@ -1,6 +1,7 @@
 query {
   content {
     title
+    code
     logo
     sections
     authorGuideline
