@@ -1,0 +1,18 @@
+mutation($issueId: ID!) {
+	publishIssueCall(issueId: $issueId) {
+    id
+    key
+    title
+    volume
+    number
+    year
+    body
+    evaluationPeriod
+    publicationPrediction
+    contact
+    publishedCall
+    published
+    startCall
+    endCall
+  }
+}

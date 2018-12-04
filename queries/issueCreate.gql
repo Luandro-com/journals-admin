@@ -1,0 +1,18 @@
+mutation($input: IssueInput!) {
+	createIssue(input: $input) {
+    id
+    key
+    title
+    volume
+    number
+    year
+    body
+    evaluationPeriod
+    publicationPrediction
+    contact
+    publishedCall
+    published
+    startCall
+    endCall
+  }
+}

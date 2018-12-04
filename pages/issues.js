@@ -1,6 +1,7 @@
 import App from '../components/App'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import Link from 'next/link'
 
 import { Query } from 'react-apollo'
 import Fab from '@material-ui/core/Fab'
@@ -33,9 +34,11 @@ let Issues = ({ classes }) => (
           return (
             <div className="issuesList">
               {dataIssues.issues.map(p => <IssueItem key={p.id} {...p} />)}
-              <Fab color="primary" aria-label="Add" className={classes.fab}>
-                <AddIcon />
-              </Fab>
+              <Link href='/issue'>
+                <Fab color="primary" aria-label="Add" className={classes.fab}>
+                  <AddIcon />
+                </Fab>
+              </Link>
             </div>
           )
         }

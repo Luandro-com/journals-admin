@@ -95,7 +95,7 @@ class App extends Component {
                   <div className={classes.toolbar} />
                   {this.props.children}
                 </main>
-              </div>  
+              </div>
             )
           }
           Router.push('/login')
