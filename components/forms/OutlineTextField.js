@@ -232,6 +232,7 @@ const OutlineTextField = ({
   input: { name, onChange, value, ...restInput },
   meta,
   label,
+  inputProps,
   ...rest
 }) => (
   <TextField
@@ -247,6 +248,7 @@ const OutlineTextField = ({
     className={classes.textField}
     margin="normal"
     variant="outlined"
+    inputProps={{ min: 1 }} 
   />
 )
 

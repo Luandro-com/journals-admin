@@ -1,5 +1,5 @@
-mutation($input: IssueInput!) {
-	updateIssue(input: $input) {
+mutation($input: IssueUpdateInput! $issueId: ID!) {
+	updateIssue(input: $input issueId: $issueId) {
     id
     key
     title

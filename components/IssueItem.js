@@ -1,4 +1,5 @@
 import React from 'react'
+import Router from 'next/router'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Mutation } from 'react-apollo'
@@ -14,8 +15,8 @@ import ISSUES_LOCAL from '../queries/issuesLocal.gql'
 
 const styles = {
   card: {
-    width: 320,
-    height: 400,
+    width: '100%',
+    height: 500,
     margin: 7
   },
   media: {
@@ -24,8 +25,8 @@ const styles = {
   },
 }
 
-function ProductItem(props) {
-  const { classes, id, title, image, body, publishedCall, published, submitedArticles, selectedArticles, selectedEditorials } = props
+function IssueItem(props) {
+  const { classes, id, issueKey, title, image, body, publishedCall, published, submitedArticles, selectedArticles, selectedEditorials } = props
   return (
     <Mutation mutation={ISSUE_DELETE}>
       {(deleteIssue, { error: errorDelete, client: clientDelete }) => (
@@ -76,7 +77,7 @@ function ProductItem(props) {
             })}
           </CardContent>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={() => Router.push(`/issue?key=${issueKey}`)}>
             Editar
           </Button>
           <Button
@@ -101,9 +102,9 @@ function ProductItem(props) {
   )
 }
 
-ProductItem.propTypes = {
+IssueItem.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(ProductItem)
+export default withStyles(styles)(IssueItem)
 

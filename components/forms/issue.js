@@ -3,16 +3,62 @@ import { Form, Field } from 'react-final-form'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
+import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Upload from './Upload'
 import OutlineTextField from './OutlineTextField'
+const validInputList = {
+  title: {
+    label: 'Título',
+    type: 'text'
+  },
+  image: {
+    label: 'Imagem de capa',
+    type: 'file'
+  },
+  key: {
+    label: 'Slug',
+    type: 'text'
+  },
+  body: {
+    label: 'Apresentação',
+    type: 'text'
+  },
+  volume: {
+    label: 'Volume',
+    type: 'int'
+  },
+  number: {
+    label: 'Número',
+    type: 'int'
+  },
+  year: {
+    label: 'Ano',
+    type: 'text'
+  },
+  evaluationPeriod: {
+    label: 'Périodo de Avalição',
+    type: 'int'
+  },
+  publicationPrediction: {
+    label: 'Previsão de Publicação',
+    type: 'date'
+  },
+  contact: {
+    label: 'Contato',
+    type: 'text'
+  },
+  startCall: {
+    label: 'Início da chamada',
+    type: 'date'
+  },
+  endCall: {
+    label: 'Prazo da chamada',
+    type: 'date'
+  },
+}
 
 const validate = values => {
   const errors = {}
@@ -32,39 +78,19 @@ const cleanObject = (obj) => {
 }
 
 const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+  },
   root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
-  icon: {
-    verticalAlign: 'bottom',
-    height: 20,
-    width: 20,
-  },
-  details: {
-    alignItems: 'center',
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
   },
   column: {
     flexBasis: '33.33%',
   },
-  helper: {
-    borderLeft: `2px solid ${theme.palette.divider}`,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-  },
-  link: {
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-})
+});
 
 class JournalGeneralForm extends Component {
   state = {
@@ -74,106 +100,100 @@ class JournalGeneralForm extends Component {
   clearUpload = () => this.setState({ uploaded: null })
 
   handleUpload = (uploaded, change, blur) => {
-    blur('logo')
-    change('logo', uploaded)
+    blur('image')
+    change('image', uploaded)
     this.setState({ uploaded })
   }
 
   render() {
-    const { classes, onSubmit, issues } = this.props
+    const { classes, onSubmit, issue } = this.props
+    let formatedIssue = {}
+    Object.keys(issue).map(i => {
+      if ((new Date(issue[i]) !== "Invalid Date") && !isNaN(new Date(issue[i]))) {
+        console.log(issue[i])
+        formatedIssue[i] = issue[i]
+      } else {
+        formatedIssue[i] = issue[i]
+      }
+    })
+    console.log(formatedIssue)
     return (
       <Form
-        initialValues={issues ? issues : {}}
+        initialValues={issue ? issue : {}}
         onSubmit={async e => {
           let cleanList = {}
-          Object.keys(e).map(i => {
-            if (Array.isArray(e[i]) && e[i].length > 0) {
-              cleanList[i] = e[i]
-            } else if (!Array.isArray(e[i]) && i !== '__typename' && i !== 'createdAt' && i !== 'updatedAt' && e[i] !== null) {
-              cleanList[i] = e[i]
-            }
+          Object.keys(validInputList).map(valid => {
+            Object.keys(e).map(i => {
+              if (i === valid && e[i] !== null) {
+                if (0 === e[i] % (!isNaN(parseFloat(e[i])) && 0 <= ~~e[i])) {
+                  cleanList[i] = parseInt(e[i])
+                } else {
+                  cleanList[i] = e[i]
+                }
+              }
+            })
           })
+          
+          console.log('cleanList', cleanList)
           await onSubmit(cleanList)
           this.clearUpload()
         }}
         validate={validate}
         render={({ handleSubmit, pristine, invalid, form: { change, blur } }) => (
           <form onSubmit={handleSubmit}>
-            <ExpansionPanel defaultExpanded>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <div className={classes.column}>
-                  <Typography className={classes.heading}>Geral</Typography>
-                </div>
-                <div className={classes.column}>
-                  <Typography className={classes.secondaryHeading}>configurações gerais</Typography>
-                </div>
-              </ExpansionPanelSummary>
-              <Divider />
-              <ExpansionPanelDetails className={classes.details}>
-                <div className={classes.column}>
-                  <Typography component="h3" variant="h3">Logo</Typography>
-                </div>
-                <div className={classes.column}>
-                  {(content.logo || this.state.uploaded) && <img src={this.state.uploaded || content.logo} />}
-                  {(!this.state.uploaded && !content.logo) && <h4>Sem logo...</h4>}
-                </div>
-                <div className={classNames(classes.column, classes.helper)}>
-                  <Typography variant="caption">
-                    Suba uma imagem para atualizar o logo
-                    <br />
-                    <Field name="logo">
-                      {(fieldprops) => <Upload
-                        {...fieldprops}
-                        accept="image/*"
-                        handleUpload={url => this.handleUpload(url, change, blur)}
-                      /> }
-                    </Field>
-                  </Typography>
-                </div>
-              </ExpansionPanelDetails>
-              <Divider />
-              <ExpansionPanelDetails className={classes.details}>
-                <div className={classes.column}>
-                  <Field
-                    name="code"
-                    component={OutlineTextField}
-                    type="text"
-                    label="Código"
-                  />
-                </div>
-                <div className={classNames(classes.column, classes.helper)}>
-                  <Field
-                    name="title"
-                    component={OutlineTextField}
-                    type="text"
-                    label="Título"
-                  />
-                </div>
-                <div className={classNames(classes.column, classes.helper)}>
-                  <Field
-                    name="contact"
-                    component={OutlineTextField}
-                    type="text"
-                    label="Contato"
-                  />
-                </div>
-              </ExpansionPanelDetails>
-              <Divider />
-              <ExpansionPanelActions>
-                <Button size="small">Cancel</Button>
-                <Button size="small" color="primary" type="submit" disabled={pristine || invalid}>
-                  Salvar
-                </Button>
-              </ExpansionPanelActions>
-            </ExpansionPanel>
-            <style jsx>{`
-              img {
-                max-width: 300px;
-                max-height: 300px;
+            <Paper className={classes.root} elevation={1}>
+              <span>{issue.key}</span>
+              <div className={classes.column}>
+                <Typography component="h4" variant="h4">Capa</Typography>
+              </div>
+              <div className={classes.column}>
+                {(issue.logo || this.state.uploaded) && <img src={this.state.uploaded || issue.logo} />}
+                {(!this.state.uploaded && !issue.logo) && <h4>Sem logo...</h4>}
+              </div>
+              <div className={classNames(classes.column, classes.helper)}>
+                <Typography variant="caption">
+                  Imagem de capa da edição
+                  <br />
+                  <Field name="image">
+                    {(fieldprops) => <Upload
+                      {...fieldprops}
+                      accept="image/*"
+                      handleUpload={url => this.handleUpload(url, change, blur)}
+                    /> }
+                  </Field>
+                </Typography>
+              </div>
+              {Object.keys(validInputList)
+                .filter(k => {
+                  if(validInputList[k].type !== 'file') {
+                    return validInputList[k]
+                  }
+                })
+                .map(input => (
+                  <div className={classes.column} key={input}>
+                    <Field
+                      name={input}
+                      component={OutlineTextField}
+                      type={validInputList[input].type}
+                      label={validInputList[input].label}
+                    />
+                  </div>
+                ))
               }
-            `}</style>
-          </form>
-        )} />      
+              <Divider />
+              <Button size="small">Cancel</Button>
+              <Button size="small" color="primary" type="submit" disabled={pristine || invalid}>
+                Salvar
+              </Button>
+          </Paper>
+          <style jsx>{`
+            img {
+              max-width: 300px;
+              max-height: 300px;
+            }
+          `}</style>
+        </form>
+      )} />      
     )
   }
 }

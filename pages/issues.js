@@ -33,7 +33,7 @@ let Issues = ({ classes }) => (
           console.log('dataIssues', dataIssues)
           return (
             <div className="issuesList">
-              {dataIssues.issues.map(p => <IssueItem key={p.id} {...p} />)}
+              {dataIssues.issues.map(p => <IssueItem key={p.key} issueKey={p.key} {...p} />)}
               <Link href='/issue'>
                 <Fab color="primary" aria-label="Add" className={classes.fab}>
                   <AddIcon />

@@ -1,5 +1,5 @@
-query {
-	issues {
+query($issueKey: String!) {
+  issue(issueKey: $issueKey) {
     id
     title
     volume
