@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import toReal from '../lib/toReal'
 import ISSUE_DELETE from '../queries/issueDelete.gql'
-import ISSUES_LOCAL from '../queries/issuesLocal.gql'
+import ALL_ISSUES_LOCAL from '../queries/allIssuesLocal.gql'
 
 const styles = {
   card: {
@@ -77,7 +77,7 @@ function IssueItem(props) {
             })}
           </CardContent>
         <CardActions>
-          <Button size="small" color="primary" onClick={() => Router.push(`/issue?key=${issueKey}`)}>
+          <Button size="small" color="primary" onClick={() => Router.push(`/issue_edit?key=${issueKey}`)}>
             Editar
           </Button>
           <Button
@@ -86,8 +86,8 @@ function IssueItem(props) {
             onClick={async () => {
               const res = await deleteIssue({ variables: { issueId: id }})
               if (res && res.data.deleteIssue.id) {
-                const { issues } = clientDelete.cache.readQuery({ query: ISSUES_LOCAL})
-                const newList = issues.filter(e => e.id !== res.data.deleteIssue.id)
+                const { allIssues } = clientDelete.cache.readQuery({ query: ALL_ISSUES_LOCAL})
+                const newList = allIssues.filter(e => e.id !== res.data.deleteIssue.id)
                 clientDelete.writeData({ data: {
                   issues: newList
                 }})

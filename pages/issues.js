@@ -7,7 +7,7 @@ import { Query } from 'react-apollo'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 
-import ISSUES from '../queries/issues.gql'
+import ALL_ISSUES from '../queries/allIssues.gql'
 import IssueItem from '../components/IssueItem'
 import Loading from '../components/Loading'
 
@@ -22,7 +22,7 @@ const styles = {
 
 let Issues = ({ classes }) => (
   <App>
-    <Query query={ISSUES}>
+    <Query query={ALL_ISSUES}>
       {({ loading: loadingIssues, error: errorIssues, data: dataIssues }) => {
         if (loadingIssues) return <Loading />
         if (errorIssues) {
@@ -33,8 +33,8 @@ let Issues = ({ classes }) => (
           console.log('dataIssues', dataIssues)
           return (
             <div className="issuesList">
-              {dataIssues.issues.map(p => <IssueItem key={p.key} issueKey={p.key} {...p} />)}
-              <Link href='/issue'>
+              {dataIssues.allIssues.map(p => <IssueItem key={p.key} issueKey={p.key} {...p} />)}
+              <Link href='/issue_edit'>
                 <Fab color="primary" aria-label="Add" className={classes.fab}>
                   <AddIcon />
                 </Fab>

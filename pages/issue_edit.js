@@ -18,8 +18,8 @@ const NewIssue = ({ router: { query: { key } } }) => {
           return (
             <IssueForm onSubmit={async (values) => {
               const res = await createIssue({ variables: { input: values } })
-              console.log(res)
-              if (errorCreateIssue) console.log('ERROR do something...')
+              console.log('CREATE RES', res)
+              if (errorCreateIssue) console.log('ERROR do something...', errorCreateIssue)
               return clientUpdate.writeData({ data: {
                 issue: {
                   ...res.data.createIssue

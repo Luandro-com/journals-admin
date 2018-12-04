@@ -3,6 +3,7 @@ import { Form, Field } from 'react-final-form'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
+import isISODate from 'is-iso-date'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -60,6 +61,40 @@ const validInputList = {
   },
 }
 
+function isValidDate(dateString) {
+  // First check for the pattern
+  var regex_date = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
+
+  if(!regex_date.test(dateString))
+  {
+      return false;
+  }
+
+  // Parse the date parts to integers
+  var parts   = dateString.split("-");
+  var day     = parseInt(parts[2], 10);
+  var month   = parseInt(parts[1], 10);
+  var year    = parseInt(parts[0], 10);
+
+  // Check the ranges of month and year
+  if(year < 1000 || year > 3000 || month == 0 || month > 12)
+  {
+      return false;
+  }
+
+  var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+  // Adjust for leap years
+  if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+  {
+      monthLength[1] = 29;
+  }
+
+  // Check the range of the day
+  return day > 0 && day <= monthLength[month - 1];
+}
+
+
 const validate = values => {
   const errors = {}
   // if (!values.userName) {
@@ -92,7 +127,7 @@ const styles = theme => ({
   },
 });
 
-class JournalGeneralForm extends Component {
+class IssueForm extends Component {
   state = {
     uploaded: null,
   }
@@ -108,15 +143,15 @@ class JournalGeneralForm extends Component {
   render() {
     const { classes, onSubmit, issue } = this.props
     let formatedIssue = {}
-    Object.keys(issue).map(i => {
-      if ((new Date(issue[i]) !== "Invalid Date") && !isNaN(new Date(issue[i]))) {
-        console.log(issue[i])
-        formatedIssue[i] = issue[i]
-      } else {
-        formatedIssue[i] = issue[i]
-      }
-    })
-    console.log(formatedIssue)
+    if (issue) {
+      Object.keys(issue).map(i => {
+        if (isISODate(issue[i])) {
+          formatedIssue[i] = issue[i]
+        } else {
+          formatedIssue[i] = issue[i]
+        }
+      }) 
+    }
     return (
       <Form
         initialValues={issue ? issue : {}}
@@ -125,7 +160,9 @@ class JournalGeneralForm extends Component {
           Object.keys(validInputList).map(valid => {
             Object.keys(e).map(i => {
               if (i === valid && e[i] !== null) {
-                if (0 === e[i] % (!isNaN(parseFloat(e[i])) && 0 <= ~~e[i])) {
+                if (isValidDate(e[i])) {
+                  cleanList[i] = new Date(e[i]).toISOString()
+                } else if (0 === e[i] % (!isNaN(parseFloat(e[i])) && 0 <= ~~e[i])) {
                   cleanList[i] = parseInt(e[i])
                 } else {
                   cleanList[i] = e[i]
@@ -142,13 +179,13 @@ class JournalGeneralForm extends Component {
         render={({ handleSubmit, pristine, invalid, form: { change, blur } }) => (
           <form onSubmit={handleSubmit}>
             <Paper className={classes.root} elevation={1}>
-              <span>{issue.key}</span>
+              <span>{issue && issue.key}</span>
               <div className={classes.column}>
                 <Typography component="h4" variant="h4">Capa</Typography>
               </div>
               <div className={classes.column}>
-                {(issue.logo || this.state.uploaded) && <img src={this.state.uploaded || issue.logo} />}
-                {(!this.state.uploaded && !issue.logo) && <h4>Sem logo...</h4>}
+                {issue ? (issue.logo ? <img src={issue.logo} /> : <h4>Sem logo...</h4>) : null}
+                {!issue ? (this.state.uploaded ? <img src={this.state.uploaded} /> : <h4>Sem logo...</h4>) : null}
               </div>
               <div className={classNames(classes.column, classes.helper)}>
                 <Typography variant="caption">
@@ -198,10 +235,10 @@ class JournalGeneralForm extends Component {
   }
 }
 
-JournalGeneralForm.propTypes = {
+IssueForm.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(JournalGeneralForm)
+export default withStyles(styles)(IssueForm)
 
 
