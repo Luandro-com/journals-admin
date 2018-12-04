@@ -33,6 +33,7 @@ let Issues = ({ classes }) => (
           console.log('dataIssues', dataIssues)
           return (
             <div className="issuesList">
+              {dataIssues.allIssues.length < 1 && <h3>Nenhuma edição criada....</h3>}
               {dataIssues.allIssues.map(p => <IssueItem key={p.key} issueKey={p.key} {...p} />)}
               <Link href='/issue_edit'>
                 <Fab color="primary" aria-label="Add" className={classes.fab}>

@@ -88,8 +88,9 @@ function IssueItem(props) {
               if (res && res.data.deleteIssue.id) {
                 const { allIssues } = clientDelete.cache.readQuery({ query: ALL_ISSUES_LOCAL})
                 const newList = allIssues.filter(e => e.id !== res.data.deleteIssue.id)
+                console.log('NEW', newList)
                 clientDelete.writeData({ data: {
-                  issues: newList
+                  allIssues: newList
                 }})
               }
             }}>

@@ -11,6 +11,11 @@ import Divider from '@material-ui/core/Divider'
 import Upload from './Upload'
 import OutlineTextField from './OutlineTextField'
 const validInputList = {
+  key: {
+    label: 'Slug',
+    type: 'text',
+    required: true,
+  },
   title: {
     label: 'Título',
     type: 'text'
@@ -19,9 +24,15 @@ const validInputList = {
     label: 'Imagem de capa',
     type: 'file'
   },
-  key: {
-    label: 'Slug',
-    type: 'text'
+  startCall: {
+    label: 'Início da chamada',
+    type: 'date',
+    required: true,
+  },
+  endCall: {
+    label: 'Prazo da chamada',
+    type: 'date',
+    required: true,
   },
   body: {
     label: 'Apresentação',
@@ -37,7 +48,7 @@ const validInputList = {
   },
   year: {
     label: 'Ano',
-    type: 'text'
+    type: 'int'
   },
   evaluationPeriod: {
     label: 'Périodo de Avalição',
@@ -51,54 +62,38 @@ const validInputList = {
     label: 'Contato',
     type: 'text'
   },
-  startCall: {
-    label: 'Início da chamada',
-    type: 'date'
-  },
-  endCall: {
-    label: 'Prazo da chamada',
-    type: 'date'
-  },
 }
 
 function isValidDate(dateString) {
-  // First check for the pattern
   var regex_date = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
-
-  if(!regex_date.test(dateString))
-  {
-      return false;
+  if(!regex_date.test(dateString)) {
+    return false;
   }
-
-  // Parse the date parts to integers
   var parts   = dateString.split("-");
   var day     = parseInt(parts[2], 10);
   var month   = parseInt(parts[1], 10);
   var year    = parseInt(parts[0], 10);
-
-  // Check the ranges of month and year
-  if(year < 1000 || year > 3000 || month == 0 || month > 12)
-  {
-      return false;
+  if(year < 1000 || year > 3000 || month == 0 || month > 12) {
+    return false;
   }
-
   var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-
-  // Adjust for leap years
-  if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-  {
-      monthLength[1] = 29;
+  if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
+    monthLength[1] = 29;
   }
-
-  // Check the range of the day
   return day > 0 && day <= monthLength[month - 1];
 }
 
 
 const validate = values => {
   const errors = {}
-  // if (!values.userName) {
-  //   errors.userName = 'Required'
+  // if (!values.slug) {
+  //   errors.slug = 'Required'
+  // }
+  // if (!values.startCall) {
+  //   errors.startCall = 'Required'
+  // }
+  // if (!values.endCall) {
+  //   errors.endCall = 'Required'
   // }
   return errors
 }
@@ -213,6 +208,7 @@ class IssueForm extends Component {
                       component={OutlineTextField}
                       type={validInputList[input].type}
                       label={validInputList[input].label}
+                      required={validInputList[input].required || false}
                     />
                   </div>
                 ))

@@ -9,23 +9,27 @@ import IssueForm from '../components/forms/issue'
 
 import App from '../components/App'
 import Loading from '../components/Loading'
+import Router from 'next/router'
 
-const NewIssue = ({ router: { query: { key } } }) => {
+const IssueEdit = ({ router: { query: { key } } }) => {
   return (
     <App>
       {!key && <Mutation mutation={CREATE_ISSUE}>
         {(createIssue, { error: errorCreateIssue, client: clientUpdate }) => {
           return (
-            <IssueForm onSubmit={async (values) => {
-              const res = await createIssue({ variables: { input: values } })
-              console.log('CREATE RES', res)
-              if (errorCreateIssue) console.log('ERROR do something...', errorCreateIssue)
-              return clientUpdate.writeData({ data: {
-                issue: {
-                  ...res.data.createIssue
-                }
-              }})
-            }}/>
+            <IssueForm
+              onSubmit={async (values) => {
+                const res = await createIssue({ variables: { input: values } })
+                console.log('CREATE RES', res)
+                if (errorCreateIssue) console.log('ERROR do something...', errorCreateIssue)
+                clientUpdate.writeData({ data: {
+                  issue: {
+                    ...res.data.createIssue
+                  }
+                }})
+                Router.push('/issues')
+              }}
+            />
           )
         }}
       </Mutation>}
@@ -42,11 +46,12 @@ const NewIssue = ({ router: { query: { key } } }) => {
                         const res = await updateIssue({ variables: { input: values, issueId: dataIssue.issue.id } })
                         console.log(res)
                         if (errorupdateIssue) console.log('ERROR do something...')
-                        return clientUpdate.writeData({ data: {
+                        clientUpdate.writeData({ data: {
                           issue: {
                             ...res.data.updateIssue
                           }
                         }})
+                        Router.push('/issues')
                       }}
                       issue={dataIssue.issue}
                     />
@@ -61,4 +66,4 @@ const NewIssue = ({ router: { query: { key } } }) => {
   )
 }
 
-export default withRouter(NewIssue)
+export default withRouter(IssueEdit)
