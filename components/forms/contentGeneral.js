@@ -114,8 +114,8 @@ class JournalGeneralForm extends Component {
                   <Typography component="h3" variant="h3">Logo</Typography>
                 </div>
                 <div className={classes.column}>
-                  {(content.logo || this.state.uploaded) && <img src={this.state.uploaded || content.logo} />}
-                  {(!this.state.uploaded && !content.logo) && <h4>Sem logo...</h4>}
+                  {((content && content.logo) || this.state.uploaded) && <img src={this.state.uploaded || content.logo} />}
+                  {(!this.state.uploaded && !(content && content.logo)) && <h4>Sem logo...</h4>}
                 </div>
                 <div className={classNames(classes.column, classes.helper)}>
                   <Typography variant="caption">

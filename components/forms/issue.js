@@ -136,20 +136,21 @@ class IssueForm extends Component {
   }
 
   render() {
-    const { classes, onSubmit, issue } = this.props
+    const { classes, onSubmit, issue, publishCall, publish } = this.props
     let formatedIssue = {}
     if (issue) {
       Object.keys(issue).map(i => {
         if (isISODate(issue[i])) {
-          formatedIssue[i] = issue[i]
+          formatedIssue[i] = issue[i].split('T')[0]
         } else {
           formatedIssue[i] = issue[i]
         }
       }) 
     }
+    console.log('ISSUE', issue)
     return (
       <Form
-        initialValues={issue ? issue : {}}
+        initialValues={issue ? formatedIssue : {}}
         onSubmit={async e => {
           let cleanList = {}
           Object.keys(validInputList).map(valid => {
@@ -217,6 +218,12 @@ class IssueForm extends Component {
               <Button size="small">Cancel</Button>
               <Button size="small" color="primary" type="submit" disabled={pristine || invalid}>
                 Salvar
+              </Button>
+              <Button size="small" color="primary" onClick={() => publishCall({ variables: { issueId: issue.id }})} disabled={!issue || issue.publishedCall}>
+                Publicar Chamada
+              </Button>
+              <Button size="small" color="default" onClick={() => publish({ variables: { issueId: issue.id }})} disabled={!issue || !issue.publishedCall || issue.published}>
+                Publicar Edição
               </Button>
           </Paper>
           <style jsx>{`

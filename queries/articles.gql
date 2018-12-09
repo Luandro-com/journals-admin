@@ -1,5 +1,5 @@
 query {
-  payedArticles {
+  articles {
     id
     title
     selectedBy {
