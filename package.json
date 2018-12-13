@@ -1,11 +1,11 @@
 {
-  "name": "periodicos-admin",
+  "name": "journal-admin",
   "version": "0.0.1",
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
     "build:analyze": "BUNDLE_ANALYZE=both npm run build",
-    "start": "API_HOST=https://n7ky6yokwg.execute-api.sa-east-1.amazonaws.com/staging next start -p 3005"
+    "start": "NODE_ENV=production next start -p 3005"
   },
   "dependencies": {
     "@material-ui/core": "^3.5.1",

@@ -64,7 +64,7 @@ class App extends Component {
         {({ loading: loadingUser, error: errorUser, data: dataUser }) => {
           if(loadingUser) return <Loading />
           if(dataUser && dataUser.user) {
-            if (dataUser.user.role === 'CUSTOMER') {
+            if (dataUser.user.role !== 'ADMIN' && dataUser.user.role !== 'EDITOR') {
               return <h1>Não autorizado</h1>
             }
             return (
