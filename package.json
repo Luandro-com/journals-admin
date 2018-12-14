@@ -17,6 +17,7 @@
     "apollo-link-context": "^1.0.10",
     "apollo-link-http": "^1.5.7",
     "apollo-upload-client": "^9.1.0",
+    "draft-js": "^0.10.5",
     "final-form": "^4.11.0",
     "graphql": "^14.0.2",
     "is-iso-date": "^0.0.1",
