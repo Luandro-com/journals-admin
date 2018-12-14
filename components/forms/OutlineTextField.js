@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
+import Editor from './Editor'
 
 const styles = theme => ({
   container: {
@@ -232,25 +233,33 @@ const OutlineTextField = ({
   input: { name, onChange, value, ...restInput },
   meta,
   label,
+  type,
   inputProps,
+  onEditorStateChange,
   ...rest
-}) => (
-  <TextField
-    {...rest}
-    name={name}
-    helperText={meta.touched ? meta.error : undefined}
-    error={meta.error && meta.touched}
-    inputProps={restInput}
-    onChange={onChange}
-    value={value}
-    id="outlined-name"
-    label={label}
-    className={classes.textField}
-    margin="normal"
-    variant="outlined"
-    inputProps={{ min: 1 }} 
-  />
-)
+}) => {
+  if (type === 'html') {
+    return <Editor onEditorStateChange={onEditorStateChange} value={value} />
+  }
+  return (
+    <TextField
+      {...rest}
+      name={name}
+      helperText={meta.touched ? meta.error : undefined}
+      error={meta.error && meta.touched}
+      inputProps={restInput}
+      onChange={onChange}
+      value={value}
+      id="outlined-name"
+      label={label}
+      className={classes.textField}
+      margin="normal"
+      variant="outlined"
+      inputProps={{ min: 1 }} 
+    />
+  )
+  
+}
 
 OutlineTextField.propTypes = {
   classes: PropTypes.object.isRequired,

@@ -100,7 +100,7 @@ class JournalAboutForm extends Component {
               <ExpansionPanelDetails className={classes.details}>
                 <div className={classes.column}>
                   <Field
-                    name="code"
+                    name="description"
                     component={OutlineTextField}
                     type="text"
                     label="Código"

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import dynamic from 'next/dynamic'
 import { Form, Field } from 'react-final-form'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -11,9 +10,7 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Upload from './Upload'
 import OutlineTextField from './OutlineTextField'
-const DynamicEditor = dynamic(() => import('./Editor'), {
-  ssr: false
-})
+
 const validInputList = {
   key: {
     label: 'Slug',
@@ -23,6 +20,10 @@ const validInputList = {
   title: {
     label: 'Título',
     type: 'text'
+  },
+  body: {
+    label: 'Apresentação',
+    type: 'html'
   },
   image: {
     label: 'Imagem de capa',
@@ -37,10 +38,6 @@ const validInputList = {
     label: 'Prazo da chamada',
     type: 'date',
     required: true,
-  },
-  body: {
-    label: 'Apresentação',
-    type: 'html'
   },
   volume: {
     label: 'Volume',
@@ -201,33 +198,24 @@ class IssueForm extends Component {
               </div>
               {Object.keys(validInputList)
                 .filter(k => {
-                  if(validInputList[k].type !== 'file' && validInputList[k].type !== 'html') {
+                  if(validInputList[k].type !== 'file') {
                     return validInputList[k]
                   }
                 })
                 .map(input => (
                   <div className={classes.column} key={input}>
+                    {validInputList[input].type === 'html' && <h3>{validInputList[input].label}</h3>}
                     <Field
                       name={input}
                       component={OutlineTextField}
                       type={validInputList[input].type}
                       label={validInputList[input].label}
                       required={validInputList[input].required || false}
+                      onEditorStateChange={validInputList[input].type === 'html' ? e => this.onEditorStateChange(e, change, blur) : null}
                     />
                   </div>
                 ))
               }
-              {window && <Field name="body">
-                {(fieldprops) => <DynamicEditor
-                  {...fieldprops}
-                  onEditorStateChange={e => this.onEditorStateChange(e, change, blur)}
-                />}
-              </Field>}
-              {!window && <Field
-                name="body"
-                component={OutlineTextField}
-                type="textarea"
-              />}
               <Divider />
               <Button size="small">Cancel</Button>
               <Button size="small" color="primary" type="submit" disabled={pristine || invalid}>

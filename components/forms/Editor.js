@@ -1,5 +1,14 @@
-import ReactQuill from 'react-quill'; // ES6
+import dynamic from 'next/dynamic'
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false
+})
 
-export default ({ onEditorStateChange, input }) => <ReactQuill value={input.value}
-  onChange={e => onEditorStateChange(e)}
-/>
+export default ({ onEditorStateChange, value }) => {
+  if (window) {
+    return <ReactQuill value={value}
+      onChange={e => onEditorStateChange(e)}
+    />
+  } else {
+    return <input type="textarea" />
+  }
+}
