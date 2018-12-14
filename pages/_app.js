@@ -6,7 +6,9 @@ import NextSeo from 'next-seo'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider'
-import 'draft-js/dist/Draft.css'
+// import 'draft-js/dist/Draft.css'
+import 'react-quill/dist/quill.snow.css' // QUILL
+
 import getPageContext from '../lib/getPageContext'
 import SEO from '../next-seo.config'
 import withApolloClient from '../lib/with-apollo-client'

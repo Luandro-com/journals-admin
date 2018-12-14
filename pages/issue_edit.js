@@ -25,10 +25,10 @@ const IssueEdit = ({ router: { query: { key } } }) => {
                 const res = await createIssue({ variables: { input: values } })
                 console.log('CREATE RES', res)
                 if (errorCreateIssue) console.log('ERROR do something...', errorCreateIssue)
-                const { allIssues } = clientCreate.cache.readQuery({ query: ALL_ISSUES_LOCAL})
-                clientCreate.writeData({ data: {
-                  allIssues: Object.assign(allIssues, res.data.createIssue)
-                }})
+                // const { allIssues } = clientCreate.cache.readQuery({ query: ALL_ISSUES_LOCAL})
+                // clientCreate.writeData({ data: {
+                //   allIssues: Object.assign(allIssues, res.data.createIssue)
+                // }})
                 Router.push('/issues')
               }}
             />
@@ -49,13 +49,15 @@ const IssueEdit = ({ router: { query: { key } } }) => {
                           {(publishIssue, { error: errorPublish, client: clientPublish }) => (
                             <IssueForm
                               onSubmit={async (values) => {
+                                // console.log('VALUES', values)
                                 const res = await updateIssue({ variables: { input: values, issueId: dataIssue.issue.id } })
-                                console.log(res)
+                                // console.log(res)
                                 if (errorupdateIssue) console.log('ERROR do something...')
-                                const { allIssues } = clientUpdate.cache.readQuery({ query: ALL_ISSUES_LOCAL})
-                                clientUpdate.writeData({ data: {
-                                  allIssues: Object.assign(allIssues, res.data.updateIssue)
-                                }})
+                                // const localData = clientUpdate.cache.readQuery({ query: ALL_ISSUES_LOCAL})
+                                // console.log('Local', localData)
+                                // clientUpdate.writeData({ data: {
+                                //   issue: res.data.updateIssue
+                                // }})
                                 Router.push('/issues')
                               }}
                               issue={dataIssue.issue}

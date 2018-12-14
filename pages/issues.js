@@ -30,7 +30,7 @@ let Issues = ({ classes }) => (
           return <h1>Error</h1>
         }
         if (dataIssues) {
-          console.log('dataIssues', dataIssues)
+          // console.log('dataIssues', dataIssues)
           return (
             <div className="issuesList">
               {dataIssues.allIssues.length < 1 && <h3>Nenhuma edição criada....</h3>}

@@ -2,7 +2,11 @@ query {
 	allIssues @client {
     id
     title
+    volume
+    number
+    year
     key
+    image
     submitedArticles {
       id
       title
@@ -32,6 +36,5 @@ query {
     endCall
     createdAt
     updatedAt
-
   }
 }

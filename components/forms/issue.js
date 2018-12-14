@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import dynamic from 'next/dynamic'
 import { Form, Field } from 'react-final-form'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -10,7 +11,9 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Upload from './Upload'
 import OutlineTextField from './OutlineTextField'
-import Editor from './Editor'
+const DynamicEditor = dynamic(() => import('./Editor'), {
+  ssr: false
+})
 const validInputList = {
   key: {
     label: 'Slug',
@@ -35,10 +38,10 @@ const validInputList = {
     type: 'date',
     required: true,
   },
-  // body: {
-  //   label: 'Apresentação',
-  //   type: 'text'
-  // },
+  body: {
+    label: 'Apresentação',
+    type: 'html'
+  },
   volume: {
     label: 'Volume',
     type: 'int'
@@ -99,15 +102,6 @@ const validate = values => {
   return errors
 }
 
-const cleanObject = (obj) => {
-  let newObj = {}
-  Object.keys(obj).forEach((prop) => {
-    if (Array.isArray(obj[prop]) && obj[prop]) 
-    if (obj[prop]) { newObj[prop] = obj[prop] }
-  })
-  return newObj
-}
-
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -126,7 +120,6 @@ const styles = theme => ({
 class IssueForm extends Component {
   state = {
     uploaded: null,
-    editor: '',
   }
 
   clearUpload = () => this.setState({ uploaded: null })
@@ -138,14 +131,11 @@ class IssueForm extends Component {
   }
 
   onEditorStateChange = (editor, change, blur) => {
-    console.log('EDITOR', editor)
     blur('body')
     change('body', editor)
-    this.setState({ editor })
   }
 
   render() {
-    const { editorState } = this.state
     const { classes, onSubmit, issue, publishCall, publish } = this.props
     let formatedIssue = {}
     if (issue) {
@@ -159,7 +149,6 @@ class IssueForm extends Component {
         }
       }) 
     }
-    // console.log('ISSUE', issue)
     return (
       <Form
         initialValues={issue ? formatedIssue : {}}
@@ -180,7 +169,6 @@ class IssueForm extends Component {
               }
             })
           })
-          console.log('cleanList', cleanList)
           await onSubmit(cleanList)
           this.clearUpload()
         }}
@@ -211,7 +199,7 @@ class IssueForm extends Component {
               </div>
               {Object.keys(validInputList)
                 .filter(k => {
-                  if(validInputList[k].type !== 'file') {
+                  if(validInputList[k].type !== 'file' && validInputList[k].type !== 'html') {
                     return validInputList[k]
                   }
                 })
@@ -227,21 +215,17 @@ class IssueForm extends Component {
                   </div>
                 ))
               }
-              <Field name="image">
-                {(fieldprops) => <Editor
+              {window && <Field name="body">
+                {(fieldprops) => <DynamicEditor
                   {...fieldprops}
-                  editorState={issue.body}
                   onEditorStateChange={e => this.onEditorStateChange(e, change, blur)}
-                /> }
-              </Field>
-              <Divider />
-              {/* <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={this.onEditorStateChange}
-              /> */}
+                />}
+              </Field>}
+              {!window && <Field
+                name="body"
+                component={OutlineTextField}
+                type="textarea"
+              />}
               <Divider />
               <Button size="small">Cancel</Button>
               <Button size="small" color="primary" type="submit" disabled={pristine || invalid}>
