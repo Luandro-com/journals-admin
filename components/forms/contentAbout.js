@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
-import Upload from './Upload'
 import OutlineTextField from './OutlineTextField'
 
 const validate = values => {
@@ -51,7 +50,7 @@ const styles = theme => ({
     alignItems: 'center',
   },
   column: {
-    flexBasis: '33.33%',
+    flexBasis: '100%',
   },
   helper: {
     borderLeft: `2px solid ${theme.palette.divider}`,
@@ -67,6 +66,10 @@ const styles = theme => ({
 })
 
 class JournalAboutForm extends Component {
+  onEditorStateChange = (editor, change, blur) => {
+    blur('description')
+    change('description', editor)
+  }
   render() {
     const { classes, onSubmit, content } = this.props
     return (
@@ -82,7 +85,6 @@ class JournalAboutForm extends Component {
             }
           })
           await onSubmit(cleanList)
-          this.clearUpload()
         }}
         validate={validate}
         render={({ handleSubmit, pristine, invalid, form: { change, blur } }) => (
@@ -102,11 +104,12 @@ class JournalAboutForm extends Component {
                   <Field
                     name="description"
                     component={OutlineTextField}
-                    type="text"
-                    label="Código"
+                    type="html"
+                    label="Descrição"
+                    onEditorStateChange={e => this.onEditorStateChange(e, change, blur)}
                   />
                 </div>
-                <div className={classNames(classes.column, classes.helper)}>
+                {/* <div className={classNames(classes.column, classes.helper)}>
                   <Field
                     name="title"
                     component={OutlineTextField}
@@ -121,7 +124,7 @@ class JournalAboutForm extends Component {
                     type="text"
                     label="Contato"
                   />
-                </div>
+                </div> */}
               </ExpansionPanelDetails>
               <Divider />
               <ExpansionPanelActions>
