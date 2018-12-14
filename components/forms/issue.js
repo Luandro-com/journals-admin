@@ -136,6 +136,7 @@ class IssueForm extends Component {
   }
 
   render() {
+    const { uploaded } = this.state
     const { classes, onSubmit, issue, publishCall, publish } = this.props
     let formatedIssue = {}
     if (issue) {
@@ -181,8 +182,9 @@ class IssueForm extends Component {
                 <Typography component="h4" variant="h4">Capa</Typography>
               </div>
               <div className={classes.column}>
-                {issue ? (issue.logo ? <img src={issue.logo} /> : <h4>Sem imagem de capa...</h4>) : null}
-                {!issue ? (this.state.uploaded ? <img src={this.state.uploaded} /> : <h4>Sem logo...</h4>) : null}
+                {uploaded && <img src={uploaded} />}
+                {(!uploaded && issue && issue.image) && <img src={issue.image} />}
+                {(!uploaded && !issue) && <h4>Sem imagem de capa</h4>}
               </div>
               <div className={classNames(classes.column, classes.helper)}>
                 <Typography variant="caption">
