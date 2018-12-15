@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Checkbox from '@material-ui/core/Checkbox'
 import FileIcon from '@material-ui/icons/AttachFile'
+import Off from '@material-ui/icons/HighlightOff'
 import EnhancedTableHeader from '../components/EnhancedTableHeader'
 import EnhancedTableToolbar from '../components/EnhancedTableToolbar'
 
@@ -162,8 +163,8 @@ class EnhancedTable extends React.Component {
                         </TableCell>
                         <TableCell>{n.author.firstName} {n.author.lastName}</TableCell>
                         <TableCell>{n.title}</TableCell>
-                        <TableCell><a href={n.file}><FileIcon /></a></TableCell>
-                        <TableCell><a href={n.file}>ler</a></TableCell>
+                        {n.file ? <TableCell><a href={n.file.url}><FileIcon /></a></TableCell> : <Off />}
+                        {n.file ? <TableCell><a href={`/pdf?url=${n.file.url}`}>ler</a></TableCell> : <Off />}
                         <TableCell component="th" scope="row" padding="none">
                           <span className="contact">{n.author.email}</span>
                         </TableCell>
