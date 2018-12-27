@@ -244,6 +244,7 @@ const OutlineTextField = ({
   return (
     <TextField
       {...rest}
+      type={type}
       name={name}
       helperText={meta.touched ? meta.error : undefined}
       error={meta.error && meta.touched}
